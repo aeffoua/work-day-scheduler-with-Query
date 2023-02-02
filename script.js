@@ -1,7 +1,8 @@
 const date= new Date();
 document.getElementById('currentDay').innerHTML=date;
 
-let hours= ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM','6 PM', '7 PM']
+
+let hours= ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM']
 function scheduleTemplate(hour,color){
   let template= ` <div id="hour-9" class="row time-block ${color}">
   <div class="col-2 col-md-1 hour text-center py-3">${hour}</div>
@@ -12,6 +13,7 @@ function scheduleTemplate(hour,color){
   </div>`
   return template
 }
+
 
 
 
@@ -63,7 +65,24 @@ $(function () {
     }
   }
   printHours()
-  console.log(dayjs('4 PM').isSame(dayjs().format('h A'),'hour'))
-  console.log(dayjs('4 PM'))
+  // console.log(dayjs('4 PM').isSame(dayjs().format('h A'),'hour'))
+  // console.log(dayjs('4 PM'))
+});
+let storage= document.querySelector('.saveBtn');// let's revisit
+console.log(storage);
+
+
+
+storage.on('click', function() {
+  console.log('Iamhit')
+  eventText = $(this).siblings(".input").val();
+  // console.log(eventText);
+  eventTime = $(this).siblings(".hour").text();
+  // console.log(eventTime);
+  localStorage.setItem(eventTime, JSON.stringify(eventText));
+
+  colorChange ();
+  renderText ();
+  
 });
 
