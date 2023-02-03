@@ -61,3 +61,18 @@ textarea {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+
+.hide{
+  display: none;
+}
+#success{
+  width: 300px;
+  margin:auto;
+  padding: 5px;
+}
+#success span{
+  color: red;
+}
+.check{
+  color: green!important;
+}

@@ -3,19 +3,20 @@ document.getElementById('currentDay').innerHTML=date;
 
 
 let hours= ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM']
-function scheduleTemplate(hour,color){
-  let template= ` <div id="hour-9" class="row time-block ${color}">
-  <div class="col-2 col-md-1 hour text-center py-3">${hour}</div>
-  <textarea class="col-8 col-md-10 description" rows="3"> </textarea>
-  <button class="btn saveBtn col-2 col-md-1" aria-label="save">
-    <i class="fas fa-save" aria-hidden="true"></i>
-  </button>
+function scheduleTemplate(hour,color,task){
+  if(task==null){
+    task=''
+  }
+  let template= ` 
+  <div id="hour-9" class="row time-block ${color}">
+    <div class="col-2 col-md-1 hour text-center py-3">${hour}</div>
+    <textarea class="col-8 col-md-10 description" rows="3">${task} </textarea>
+    <button class="btn saveBtn col-2 col-md-1" aria-label="save">
+      <i class="fas fa-save" aria-hidden="true"></i>
+    </button>
   </div>`
   return template
 }
-
-
-
 
 
 const pastTime= document.querySelector('row time-block past');
@@ -61,28 +62,22 @@ $(function () {
   }
   function printHours(){
     for (let hour of hours){
-      $('.container-fluid').append(scheduleTemplate(hour,chooseColor(hour)))
+      let task= window.localStorage.getItem(hour)
+      $('.container-fluid').append(scheduleTemplate(hour,chooseColor(hour),task))
     }
   }
+
+  function saveTask(e){
+    let description= e.target.parentNode.querySelector('.description').value
+    let key= e.target.parentNode.querySelector('.hour').innerHTML
+    window.localStorage.setItem(key,description)
+    $('#success').removeClass('hide')
+
+  }
+  $('.container-fluid').on('click','.saveBtn',function(e){
+    saveTask(e)
+  })
+
   printHours()
-  // console.log(dayjs('4 PM').isSame(dayjs().format('h A'),'hour'))
-  // console.log(dayjs('4 PM'))
-});
-let storage= document.querySelector('.saveBtn');// let's revisit
-console.log(storage);
-
-
-
-storage.on('click', function() {
-  console.log('Iamhit')
-  eventText = $(this).siblings(".input").val();
-  // console.log(eventText);
-  eventTime = $(this).siblings(".hour").text();
-  // console.log(eventTime);
-  localStorage.setItem(eventTime, JSON.stringify(eventText));
-
-  colorChange ();
-  renderText ();
   
-});
-
+})
